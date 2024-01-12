@@ -32,16 +32,38 @@ typeof SuppressedError === "function" ? SuppressedError : function (error, suppr
     return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
 };
 
+// ! should share between portal(server) and sdk(client)
+var PortalReqType;
+(function (PortalReqType) {
+    PortalReqType["ALLOC_MEDIA"] = "ALLOC_MEDIA";
+})(PortalReqType || (PortalReqType = {}));
+var PortalNotificationType;
+(function (PortalNotificationType) {
+    PortalNotificationType["JOIN_SUCCESS"] = "JOIN_SUCCESS";
+})(PortalNotificationType || (PortalNotificationType = {}));
+
 class MCSClient {
-    join() {
+    join(channel) {
         return __awaiter(this, void 0, void 0, function* () {
-            const socket = io(MCSClient.PORTAL_URL);
-            socket.on('connect_error', () => {
-                console.log('connect error');
+            return new Promise((resolve, reject) => {
+                const socket = io(MCSClient.PORTAL_URL, {
+                    auth: {
+                        channel,
+                    },
+                });
+                socket.on(PortalNotificationType.JOIN_SUCCESS, (uid) => {
+                    resolve(uid);
+                });
+                socket.on('connect_error', (err) => {
+                    reject(err);
+                });
+                socket.on('disconnect', (reason) => {
+                    reject(new Error(reason));
+                });
             });
         });
     }
 }
-MCSClient.PORTAL_URL = 'wss://localhost.com';
+MCSClient.PORTAL_URL = 'ws://localhost:8080';
 
 export { MCSClient };

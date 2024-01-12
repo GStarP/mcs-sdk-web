@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   mcs-sdk-web:
-    specifier: ../mcs-sdk-web-0.0.1.tgz
+    specifier: file:..\mcs-sdk-web-0.0.1.tgz
     version: file:../mcs-sdk-web-0.0.1.tgz
   solid-js:
     specifier: ^1.8.7
@@ -1256,7 +1256,7 @@ packages:
     dev: true
 
   file:../mcs-sdk-web-0.0.1.tgz:
-    resolution: {integrity: sha512-tQVBtRCnzrFnEifab953MaBcbZ8AYZ9pd3Yp8sx5FJWO/K569GkBfFg8HicAGTpMNcIhwKKXYCDFHDF3Y+QUfw==, tarball: file:../mcs-sdk-web-0.0.1.tgz}
+    resolution: {integrity: sha512-g08rWFb9ZNvaV9DQY2NIM0NEQ3+Ptlz3AI7alHpSyl5nQaij/DyfJCG+oq+ubOhH1h7EKQ9TpuTXM9VksT0oXA==, tarball: file:../mcs-sdk-web-0.0.1.tgz}
     name: mcs-sdk-web
     version: 0.0.1
     dependencies:

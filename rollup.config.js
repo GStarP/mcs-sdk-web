@@ -8,5 +8,6 @@ export default [
       format: 'esm',
     },
     plugins: [ts()],
+    external: ['socket.io-client'],
   },
 ]

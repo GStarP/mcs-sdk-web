@@ -1,5 +1,5 @@
 declare class MCSClient {
     static PORTAL_URL: string;
-    join(): Promise<void>;
+    join(channel: string): Promise<string>;
 }
 export default MCSClient;
