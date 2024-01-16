@@ -1256,7 +1256,7 @@ packages:
     dev: true
 
   file:../mcs-sdk-web-0.0.1.tgz:
-    resolution: {integrity: sha512-g08rWFb9ZNvaV9DQY2NIM0NEQ3+Ptlz3AI7alHpSyl5nQaij/DyfJCG+oq+ubOhH1h7EKQ9TpuTXM9VksT0oXA==, tarball: file:../mcs-sdk-web-0.0.1.tgz}
+    resolution: {integrity: sha512-T8oNzPInsv7xu5KL9nu44uok/YtMEtNz1z3zN3nhhay8TbBQEio3fFSHGS1BHnQVJ9FVfYKjfDP7UwoVTlqsqQ==, tarball: file:../mcs-sdk-web-0.0.1.tgz}
     name: mcs-sdk-web
     version: 0.0.1
     dependencies:

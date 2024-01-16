@@ -8,6 +8,6 @@ export default [
       format: 'esm',
     },
     plugins: [ts()],
-    external: ['socket.io-client'],
+    external: ['socket.io-client', 'mediasoup-client'],
   },
 ]

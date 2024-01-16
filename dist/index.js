@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client';
+import { Device } from 'mediasoup-client';
 
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -32,6 +33,12 @@ typeof SuppressedError === "function" ? SuppressedError : function (error, suppr
     return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
 };
 
+var ClientStatus;
+(function (ClientStatus) {
+    ClientStatus[ClientStatus["IDLE"] = 0] = "IDLE";
+    ClientStatus[ClientStatus["JOINED"] = 1] = "JOINED";
+})(ClientStatus || (ClientStatus = {}));
+
 // ! should share between portal(server) and sdk(client)
 var PortalReqType;
 (function (PortalReqType) {
@@ -42,28 +49,76 @@ var PortalNotificationType;
     PortalNotificationType["JOIN_SUCCESS"] = "JOIN_SUCCESS";
 })(PortalNotificationType || (PortalNotificationType = {}));
 
+var PublishError;
+(function (PublishError) {
+    PublishError["INVALID_OPERATION"] = "INVALID_OPERATION";
+})(PublishError || (PublishError = {}));
+
 class MCSClient {
+    constructor() {
+        this.status = ClientStatus.IDLE;
+        this.options = {
+            timeout: 10 * 1000,
+        };
+        this.socket = null;
+        // workerId => MediaWorker
+        this.workers = new Map();
+    }
     join(channel) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                const socket = io(MCSClient.PORTAL_URL, {
+                this.socket = io(MCSClient.PORTAL_URL, {
                     auth: {
                         channel,
                     },
                 });
-                socket.on(PortalNotificationType.JOIN_SUCCESS, (uid) => {
+                this.socket.once(PortalNotificationType.JOIN_SUCCESS, (uid) => {
+                    this.status = ClientStatus.JOINED;
                     resolve(uid);
                 });
-                socket.on('connect_error', (err) => {
+                this.socket.on('connect_error', (err) => {
+                    this.status = ClientStatus.IDLE;
                     reject(err);
                 });
-                socket.on('disconnect', (reason) => {
+                this.socket.on('disconnect', (reason) => {
+                    this.status = ClientStatus.IDLE;
                     reject(new Error(reason));
                 });
             });
         });
     }
+    publish(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('[publish]', options);
+            if (this.status === ClientStatus.IDLE || this.socket === null) {
+                throw new Error(PublishError.INVALID_OPERATION);
+            }
+            const res = yield this.socket
+                .timeout(this.options.timeout)
+                .emitWithAck(PortalReqType.ALLOC_MEDIA);
+            if (res.code === 0) {
+                const { server, rid, rtp } = res.data;
+                const workerId = encodeWorkerId(server, rid);
+                if (!this.workers.has(workerId)) {
+                    this.workers.set(workerId, {
+                        serverName: server,
+                        routerId: rid,
+                    });
+                }
+                const mediaWorker = this.workers.get(workerId);
+                if (!mediaWorker.device) {
+                    const device = new Device();
+                    yield device.load({ routerRtpCapabilities: rtp });
+                    mediaWorker.device = device;
+                }
+            }
+        });
+    }
 }
 MCSClient.PORTAL_URL = 'ws://localhost:8080';
+const WORKER_ID_SPLITTER = '_';
+function encodeWorkerId(serverName, routerId) {
+    return serverName + WORKER_ID_SPLITTER + routerId;
+}
 
 export { MCSClient };

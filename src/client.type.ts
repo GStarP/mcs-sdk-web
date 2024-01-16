@@ -1,9 +1,24 @@
 import type { Socket } from 'socket.io-client'
-import type { PortalServerEmitMap } from './portal.type'
+import type { PortalClientEmitMap, PortalServerEmitMap } from './portal.type'
+import type { Device } from 'mediasoup-client'
+import type { Transport } from 'mediasoup-client/lib/types'
 
-type DefaultEventsMap = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [event: string]: (...args: any[]) => void
+export type ClientSocket = Socket<PortalServerEmitMap, PortalClientEmitMap>
+
+export type MediaType = 'audio' | 'video' | 'screen'
+
+export type PublishOptions = {
+  type: MediaType
 }
 
-export type ClientSocket = Socket<PortalServerEmitMap, DefaultEventsMap>
+export enum ClientStatus {
+  IDLE,
+  JOINED,
+}
+
+export type MediaWorker = {
+  serverName: string
+  routerId: string
+  device?: Device
+  transport?: Transport
+}

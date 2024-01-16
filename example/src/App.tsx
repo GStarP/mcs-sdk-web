@@ -5,14 +5,20 @@ import { MCSClient } from 'mcs-sdk-web'
 function App() {
   const [uid, setUid] = createSignal('')
 
+  const client = new MCSClient()
+
   onMount(async () => {
-    const client = new MCSClient()
     // will log error
     const userId = await client.join('test')
     setUid(userId)
   })
 
-  return <div>uid: {uid()}</div>
+  return (
+    <div>
+      <div>uid: {uid()}</div>
+      <button onClick={() => client.publish({ type: 'video' })}>publish</button>
+    </div>
+  )
 }
 
 export default App
