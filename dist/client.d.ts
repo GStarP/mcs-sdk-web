@@ -4,7 +4,7 @@ declare class MCSClient {
     status: ClientStatus;
     private options;
     private socket;
-    private workers;
+    private produceWorkers;
     join(channel: string): Promise<string>;
     publish(options: PublishOptions): Promise<void>;
 }

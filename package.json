@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "mediasoup-client": "3",
-    "socket.io-client": "^4.7.3"
+    "socket.io-client": "^4.7.4"
   }
 }

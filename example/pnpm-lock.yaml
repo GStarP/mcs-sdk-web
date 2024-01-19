@@ -1075,8 +1075,8 @@ packages:
     resolution: {integrity: sha512-qQs/N+KfJu83rmszFQaTxcoJoPn6KNUruX4KmnmyD0oZkUoiNvJ1rpdYKDf4YHM05k+HOgCxa3yvf15QbVijGg==}
     engines: {node: '>=10'}
 
-  /socket.io-client@4.7.3:
-    resolution: {integrity: sha512-nU+ywttCyBitXIl9Xe0RSEfek4LneYkJxCeNnKCuhwoH4jGXO1ipIUw/VA/+Vvv2G1MTym11fzFC0SxkrcfXDw==}
+  /socket.io-client@4.7.4:
+    resolution: {integrity: sha512-wh+OkeF0rAVCrABWQBaEjLfb7DVPotMbu0cgWgyR0v6eA4EoVnAwcIeIbcdTE3GT/H3kbdLl7OoH2+asoDRIIg==}
     engines: {node: '>=10.0.0'}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
@@ -1256,12 +1256,12 @@ packages:
     dev: true
 
   file:../mcs-sdk-web-0.0.1.tgz:
-    resolution: {integrity: sha512-T8oNzPInsv7xu5KL9nu44uok/YtMEtNz1z3zN3nhhay8TbBQEio3fFSHGS1BHnQVJ9FVfYKjfDP7UwoVTlqsqQ==, tarball: file:../mcs-sdk-web-0.0.1.tgz}
+    resolution: {integrity: sha512-9JKpOL8OQik+BYZEYd6K8vEmavpLNsiKGGJUilrzuwx+iKe2ViW5SNFx6DqHNa2Iu3cpKcbCEjw9v7PhJgkNdg==, tarball: file:../mcs-sdk-web-0.0.1.tgz}
     name: mcs-sdk-web
     version: 0.0.1
     dependencies:
       mediasoup-client: 3.7.2
-      socket.io-client: 4.7.3
+      socket.io-client: 4.7.4
     transitivePeerDependencies:
       - bufferutil
       - supports-color
